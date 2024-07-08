@@ -208,7 +208,7 @@ connection_cache_impl::acquire_connection(connection_key const &key)
             auto loc =
                 connection_map_.emplace_hint(last, key, std::move(candidate));
 
-            auto [f, l] = connection_map_.equal_range(key);
+            //auto [f, l] = connection_map_.equal_range(key);
 
             co_return active_connection(*loc);
         }
