@@ -107,7 +107,7 @@ connection_cache_impl::connection_cache_impl(net::io_strand  exec,
 
 connection_cache_impl::~connection_cache_impl() = default;
 
-net::awaitable< response_type >
+boost::asio::awaitable< response_type >
 connection_cache_impl::call(verb                method,
                             std::string const  &url,
                             std::string         data,
@@ -165,7 +165,7 @@ connection_cache_impl::call(verb                method,
 
 auto
 connection_cache_impl::acquire_connection(connection_key const &key)
-    -> net::awaitable< active_connection >
+    -> boost::asio::awaitable< active_connection >
 {
     // find or create the condition variable monitoring the maximum number of
     // connections per host

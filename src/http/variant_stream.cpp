@@ -13,7 +13,7 @@ namespace http
 {
 namespace
 {
-    net::awaitable<
+    boost::asio::awaitable<
         std::tuple< error_code, net::ip::tcp::resolver ::results_type > >
     resolve(async::stop_token         stop,
             std::string const        &hostname,
@@ -84,7 +84,7 @@ namespace
         co_return std::make_tuple(error, std::move(results));
     }
 
-    net::awaitable< error_code >
+    boost::asio::awaitable< error_code >
     connect_tcp(async::stop_token                    stop,
                 tcp_layer                           &tcp,
                 net::ip::tcp::resolver::results_type results,
@@ -106,7 +106,7 @@ namespace
         co_return ec;
     }
 
-    net::awaitable< error_code >
+    boost::asio::awaitable< error_code >
     handshake(async::stop_token         stop,
               tls_layer                &tls,
               std::string const        &hostname,
@@ -136,7 +136,7 @@ namespace
     }
 }   // namespace
 
-net::awaitable< error_code >
+boost::asio::awaitable< error_code >
 variant_stream::connect(async::stop_token      stop,
                         ssl::context          &sslctx,
                         transport_type         ttype,

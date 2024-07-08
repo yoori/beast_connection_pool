@@ -16,6 +16,8 @@ else()
     endfunction()
 endif()
 
+find_package(Boost 1.78.0 REQUIRED)
+
 option(BUILD_TOOLS "Build example tools" ON)
 
 set(CMAKE_CXX_STANDARD 20)

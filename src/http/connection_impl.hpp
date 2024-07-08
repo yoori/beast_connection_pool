@@ -30,17 +30,17 @@ struct connection_impl
         return exec_;
     }
 
-    net::awaitable< std::tuple< error_code, response_type > >
+    boost::asio::awaitable< std::tuple< error_code, response_type > >
     rest_call(request_class const   &request,
               request_options const &options = {});
 
   private:
     /// @brief Connect to the upstream host if not already connected
     /// @return awaitable containing error code on failure
-    net::awaitable< error_code >
+    boost::asio::awaitable< error_code >
     connect(async::stop_token stop);
 
-    net::awaitable< error_code >
+    boost::asio::awaitable< error_code >
     rest_call(request_class const   &request,
               response_class        &response,
               request_options const &options);

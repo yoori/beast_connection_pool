@@ -2,7 +2,8 @@ macro(rhhp_setup_compiler target_name)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         target_compile_options(${target_name} PUBLIC -fcoroutines-ts -stdlib=libc++)
         target_link_options(${target_name} PUBLIC -stdlib=libc++)
-    else (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    elif (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS "8.0.0")
+        # to clarify exactly when gcc stopped support of -fcoroutines flag.
         target_compile_options(${target_name} PUBLIC -fcoroutines)
     endif ()
 

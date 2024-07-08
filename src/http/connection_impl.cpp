@@ -9,7 +9,7 @@
 
 namespace http
 {
-net::awaitable< error_code >
+boost::asio::awaitable< error_code >
 connection_impl::connect(async::stop_token stop)
 {
     error_code ec;
@@ -20,7 +20,7 @@ connection_impl::connect(async::stop_token stop)
     co_return ec;
 }
 
-net::awaitable< std::tuple< error_code, response_type > >
+boost::asio::awaitable< std::tuple< error_code, response_type > >
 connection_impl::rest_call(request_class const   &request,
                            request_options const &options)
 {
@@ -43,7 +43,7 @@ connection_impl::rest_call(request_class const   &request,
     co_return std::make_tuple(ec, std::move(response));
 }
 
-net::awaitable< error_code >
+boost::asio::awaitable< error_code >
 connection_impl::rest_call(request_class const   &request,
                            response_class        &response,
                            request_options const &options)

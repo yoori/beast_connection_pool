@@ -10,18 +10,21 @@
 
 #include "rhhp_config.hpp"
 
+#include <boost/asio/use_awaitable.hpp>
+#include <boost/asio/awaitable.hpp>
+
 namespace async
 {
 struct condition_variable_impl
 {
-    condition_variable_impl(net::any_io_executor exec)
+    condition_variable_impl(boost::asio::any_io_executor exec)
     : timer_(std::move(exec))
     {
         timer_.expires_at(std::chrono::steady_clock::time_point::max());
     }
 
     template < class Pred >
-    net::awaitable< void >
+    boost::asio::awaitable< void >
     wait(Pred pred);
 
     void
@@ -35,13 +38,13 @@ struct condition_variable_impl
 };
 
 template < class Pred >
-net::awaitable< void >
+boost::asio::awaitable< void >
 condition_variable_impl::wait(Pred pred)
 {
     while (!pred())
     {
         error_code ec;
-        co_await timer_.async_wait(net::redirect_error(net::use_awaitable, ec));
+        co_await timer_.async_wait(net::redirect_error(boost::asio::use_awaitable, ec));
     }
 }
 

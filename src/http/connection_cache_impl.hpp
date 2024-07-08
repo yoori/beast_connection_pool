@@ -31,7 +31,7 @@ struct connection_cache_impl
 
     ~connection_cache_impl();
 
-    net::awaitable< response_type >
+    boost::asio::awaitable< response_type >
     call(verb                method,
          std::string const  &url,
          std::string         data    = {},
@@ -84,7 +84,7 @@ struct connection_cache_impl
         connection_type connection_;
     };
 
-    net::awaitable< active_connection >
+    boost::asio::awaitable< active_connection >
     acquire_connection(connection_key const &key);
 
     /// @brief Replace the connection from an active_connection back in the

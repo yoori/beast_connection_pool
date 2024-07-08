@@ -7,6 +7,9 @@
 #ifndef NEW_YEAR_2021_CONFIG_HPP
 #define NEW_YEAR_2021_CONFIG_HPP
 
+#define BOOST_ASIO_HAS_CO_AWAIT
+#define BOOST_ASIO_HAS_STD_COROUTINE
+
 #include <boost/asio.hpp>
 #include <boost/asio/experimental/as_single.hpp>
 #include <boost/asio/ssl.hpp>

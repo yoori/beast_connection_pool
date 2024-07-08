@@ -10,7 +10,7 @@
 
 namespace http
 {
-connection_cache::connection_cache(net::any_io_executor const &exec,
+connection_cache::connection_cache(boost::asio::any_io_executor const &exec,
                                    ssl::context &              ssl_context,
                                    connect_options             options)
 : impl_(std::make_unique< connection_cache_impl >(
@@ -22,7 +22,7 @@ connection_cache::connection_cache(net::any_io_executor const &exec,
 
 connection_cache::~connection_cache() = default;
 
-net::awaitable< response_type >
+boost::asio::awaitable< response_type >
 connection_cache::call(beast::http::verb   method,
                        const std::string  &url,
                        std::string         data,
@@ -43,7 +43,7 @@ connection_cache::call(beast::http::verb   method,
     auto my_executor = co_await net::this_coro::executor;
 
     // either call directly or via a spawned coroutine
-    if (impl_->get_executor() == my_executor)
+    if (my_executor == impl_->get_executor())
         co_return co_await op();
     else
         co_return co_await net::co_spawn(

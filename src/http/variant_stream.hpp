@@ -86,7 +86,7 @@ struct variant_stream
     /// @post On success: is_open() == true
     /// @post On error: is_open() == false
     /// @pre is_open == false
-    net::awaitable< error_code >
+    boost::asio::awaitable< error_code >
     connect(async::stop_token      stop,
             ssl::context          &sslctx,
             transport_type         ttype,
