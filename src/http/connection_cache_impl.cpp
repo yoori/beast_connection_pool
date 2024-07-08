@@ -191,17 +191,13 @@ connection_cache_impl::acquire_connection(connection_key const &key)
         {
             if (first->second)
             {
-                std::cout << "available connection found: " << key << "\n";
                 co_return active_connection(*first);
             }
         }
 
-        std::cout << "no available connection found: " << key;
         // if no available connections, see if we can create a new one
         if (connection_count < max_connections_per_host_)
         {
-            std::cout << ", connection count=" << connection_count
-                      << ", creating\n";
             auto candidate =
                 std::make_unique< connection_impl >(net::new_strand(exec_),
                                                     ssl_ctx_,
@@ -213,19 +209,14 @@ connection_cache_impl::acquire_connection(connection_key const &key)
                 connection_map_.emplace_hint(last, key, std::move(candidate));
 
             auto [f, l] = connection_map_.equal_range(key);
-            std::cout << "emplaced connection for " << key << ", count is now "
-                      << static_cast< std::size_t >(std::distance(f, l))
-                      << '\n';
 
             co_return active_connection(*loc);
         }
 
         // if not possible, then wait for a connection to become available
-        std::cout << ", connection count=" << connection_count << ", waiting\n";
         auto ec = error_code();
         co_await icond->second.async_wait(asio::experimental::as_single(
             net::redirect_error(net::use_awaitable, ec)));
-        std::cout << "finished waiting: " << key << '\n';
     }
 }
 
@@ -233,8 +224,6 @@ void
 connection_cache_impl::replace_connection(
     connection_cache_impl::active_connection conn)
 {
-    std::cout << "replacing connection: " << conn.key() << "\n";
-
     assert(conn.connection());
     assert(!conn.cached_connection());
     conn.replace_connection();
