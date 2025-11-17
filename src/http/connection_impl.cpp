@@ -91,7 +91,8 @@ connection_impl::rest_call(request_class const   &request,
     {
         if (ec)
         {
-            tcp.socket().shutdown(net::ip::tcp::socket::shutdown_both);
+            auto ignore_ec = error_code(); // pass for avoid exception raising.
+            tcp.socket().shutdown(net::ip::tcp::socket::shutdown_both, ignore_ec);
         }
         else
         {
